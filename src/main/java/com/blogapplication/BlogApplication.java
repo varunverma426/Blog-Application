@@ -2,10 +2,12 @@ package com.blogapplication;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
-@SpringBootApplication
-@ComponentScan(basePackages = "com.netsurfingzone.*")
+
+@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+//@ComponentScan(basePackages = "com.netsurfingzone.*")
+
 public class BlogApplication {
 
 	public static void main(String[] args) {
