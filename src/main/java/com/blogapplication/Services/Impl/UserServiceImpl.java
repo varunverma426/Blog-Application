@@ -5,6 +5,7 @@ import com.blogapplication.Exceptions.ResourceNotFound;
 import com.blogapplication.Repositories.UserDAO;
 import com.blogapplication.Services.UserService;
 import com.blogapplication.payloads.UserDTO;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDAO userDAO;
+
+    @Autowired
+    private ModelMapper modelMapper;
     @Override
     public UserDTO createUser(UserDTO userDTO) {
         UserEntity users=this.DTOtoEntity(userDTO);
@@ -54,21 +58,25 @@ public class UserServiceImpl implements UserService {
 
     }
     private UserEntity DTOtoEntity(UserDTO userDTO){
-      UserEntity user=new UserEntity();
-      user.setUser_id(userDTO.getUser_id());
-      user.setUser_name(userDTO.getUser_name());
-      user.setEmail(userDTO.getEmail());
-      user.setPassword(userDTO.getPassword());
-      user.setAbout(userDTO.getAbout());
-      return user;
+        //Use model mapper instead of doing manually
+        UserEntity userEntity=modelMapper.map(userDTO,UserEntity.class);
+//      UserEntity user=new UserEntity();
+//      user.setUser_id(userDTO.getUser_id());
+//      user.setUser_name(userDTO.getUser_name());
+//      user.setEmail(userDTO.getEmail());
+//      user.setPassword(userDTO.getPassword());
+//      user.setAbout(userDTO.getAbout());
+      return userEntity;
     }
     private UserDTO EntitytoDTO(UserEntity users){
-        UserDTO userDTO=new UserDTO();
-        userDTO.setUser_id(users.getUser_id());
-        userDTO.setUser_name(users.getUser_name());
-        userDTO.setEmail(users.getEmail());
-        userDTO.setPassword(users.getPassword());
-        userDTO.setAbout(users.getAbout());
+        //Use model mapper instead of doing manually
+        UserDTO userDTO=modelMapper.map(users,UserDTO.class);
+//        UserDTO userDTO=new UserDTO();
+//        userDTO.setUser_id(users.getUser_id());
+//        userDTO.setUser_name(users.getUser_name());
+//        userDTO.setEmail(users.getEmail());
+//        userDTO.setPassword(users.getPassword());
+//        userDTO.setAbout(users.getAbout());
         return userDTO;
     }
 }
