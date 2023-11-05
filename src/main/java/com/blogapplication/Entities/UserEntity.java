@@ -21,7 +21,6 @@ public class UserEntity {
     private String user_name;
     private String email;
     private String password;
-
     @Column(length = 250)
     private String about;
 }

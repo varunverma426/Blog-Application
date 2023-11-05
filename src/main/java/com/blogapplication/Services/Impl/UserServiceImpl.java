@@ -60,23 +60,12 @@ public class UserServiceImpl implements UserService {
     private UserEntity DTOtoEntity(UserDTO userDTO){
         //Use model mapper instead of doing manually
         UserEntity userEntity=modelMapper.map(userDTO,UserEntity.class);
-//      UserEntity user=new UserEntity();
-//      user.setUser_id(userDTO.getUser_id());
-//      user.setUser_name(userDTO.getUser_name());
-//      user.setEmail(userDTO.getEmail());
-//      user.setPassword(userDTO.getPassword());
-//      user.setAbout(userDTO.getAbout());
       return userEntity;
     }
     private UserDTO EntitytoDTO(UserEntity users){
         //Use model mapper instead of doing manually
         UserDTO userDTO=modelMapper.map(users,UserDTO.class);
-//        UserDTO userDTO=new UserDTO();
-//        userDTO.setUser_id(users.getUser_id());
-//        userDTO.setUser_name(users.getUser_name());
-//        userDTO.setEmail(users.getEmail());
-//        userDTO.setPassword(users.getPassword());
-//        userDTO.setAbout(users.getAbout());
+
         return userDTO;
     }
 }
