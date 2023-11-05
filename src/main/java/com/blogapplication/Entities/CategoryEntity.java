@@ -9,6 +9,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -31,4 +33,11 @@ public class CategoryEntity {
     @Column(name="categoryDescription",length = 100)
     @Size(min=10, message = "Min size of category description is 10")
     private String categoryDescription;
+
+
+    //cascade is use so that child record gets deleted with parent record
+    //establishing one to many relationship
+    //one to many relationship as one category can have many posts
+    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
+    private Set<PostEntity> posts=new HashSet<>();
 }

@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -23,4 +25,10 @@ public class UserEntity {
     private String password;
     @Column(length = 250)
     private String about;
+
+    //cascade is use so that child record gets deleted with parent record
+    //establishing one to many relationship
+    //one to many relationship as one user can have many posts
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private Set<PostEntity> posts=new HashSet<>();
 }
