@@ -3,7 +3,7 @@ package com.blogapplication.Services.Impl;
 import com.blogapplication.Entities.UserEntity;
 import com.blogapplication.Exceptions.ResourceNotFound;
 import com.blogapplication.Repositories.UserDAO;
-import com.blogapplication.Services.UserService;
+import com.blogapplication.Services.Service.UserService;
 import com.blogapplication.payloads.UserDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

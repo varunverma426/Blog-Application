@@ -12,11 +12,11 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name="users")
+@Table(name = "users")
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int user_id;
 
     @Column(nullable = false, length = 100)
@@ -29,6 +29,6 @@ public class UserEntity {
     //cascade is use so that child record gets deleted with parent record
     //establishing one to many relationship
     //one to many relationship as one user can have many posts
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private Set<PostEntity> posts=new HashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<PostEntity> posts = new HashSet<>();
 }

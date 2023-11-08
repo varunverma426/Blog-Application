@@ -3,7 +3,7 @@ package com.blogapplication.Services.Impl;
 import com.blogapplication.Entities.CategoryEntity;
 import com.blogapplication.Exceptions.ResourceNotFound;
 import com.blogapplication.Repositories.CategoryDAO;
-import com.blogapplication.Services.CategoryServices;
+import com.blogapplication.Services.Service.CategoryServices;
 import com.blogapplication.payloads.CategoryDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

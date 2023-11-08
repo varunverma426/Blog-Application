@@ -1,6 +1,6 @@
 package com.blogapplication.Controllers;
 
-import com.blogapplication.Services.UserService;
+import com.blogapplication.Services.Service.UserService;
 import com.blogapplication.Utils.ApiResponse;
 import com.blogapplication.payloads.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,26 +18,30 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/addUser")
-    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO){
-        UserDTO createdUser=this.userService.createUser(userDTO); 
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
+        UserDTO createdUser = this.userService.createUser(userDTO);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
+
     @PutMapping("/updateUser/{userId}")
-    public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UserDTO userDTO, @PathVariable int userId){
-        UserDTO createdUser=this.userService.updateUser(userDTO,userId);
-        return  ResponseEntity.ok(createdUser);
+    public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UserDTO userDTO, @PathVariable int userId) {
+        UserDTO createdUser = this.userService.updateUser(userDTO, userId);
+        return ResponseEntity.ok(createdUser);
     }
+
     @DeleteMapping("/deleteUser/{userId}")
-    public ResponseEntity<ApiResponse> deleteUser(@PathVariable int userId){
+    public ResponseEntity<ApiResponse> deleteUser(@PathVariable int userId) {
         this.userService.deleteUser(userId);
-        return new ResponseEntity(new ApiResponse("User deleted sucessfully",true),HttpStatus.OK);
+        return new ResponseEntity(new ApiResponse("User deleted sucessfully", true), HttpStatus.OK);
     }
+
     @GetMapping("/getAllUser")
-    public ResponseEntity<List<UserDTO>> getUser(){
+    public ResponseEntity<List<UserDTO>> getUser() {
         return (ResponseEntity.ok(this.userService.getAllUser()));
     }
+
     @GetMapping("/getUserById/{userId}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable int userId){
+    public ResponseEntity<UserDTO> getUserById(@PathVariable int userId) {
         return (ResponseEntity.ok(this.userService.getUserById(userId)));
     }
 //    @PutMapping(@RequestBody UserDTO userDTO)

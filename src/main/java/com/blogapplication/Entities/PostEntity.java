@@ -37,6 +37,4 @@ public class PostEntity {
     private CategoryEntity category;
     @ManyToOne
     private UserEntity user;
-
-    
 }

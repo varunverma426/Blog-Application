@@ -1,4 +1,4 @@
-package com.blogapplication.Services;
+package com.blogapplication.Services.Service;
 
 import com.blogapplication.payloads.UserDTO;
 
