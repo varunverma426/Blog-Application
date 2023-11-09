@@ -11,6 +11,9 @@ import com.blogapplication.Services.Service.PostService;
 import com.blogapplication.payloads.PostDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -30,6 +33,8 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private UserDAO userDAO;
+
+
 
     @Override
     public PostDTO createPost(PostDTO postDTO, int userId, int categoryId) {
@@ -67,8 +72,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDTO> getAllPost() {
-       List<PostEntity> postEntity=this.postDao.findAll();
+    public List<PostDTO> getAllPost(int pageNumber,int pageSize) {
+
+        //introducing Pageinitiation concept
+       Pageable page= PageRequest.of(pageNumber,pageSize);
+        Page<PostEntity> pagePost=this.postDao.findAll(page);
+        List<PostEntity> postEntity= pagePost.getContent();
        return postEntity.stream().map(p->this.modelMapper.map(p,PostDTO.class)).collect(Collectors.toList());
     }
 
