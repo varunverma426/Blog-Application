@@ -1,5 +1,6 @@
 package com.blogapplication.Services.Service;
 
+import com.blogapplication.payloads.PaginitationResponse;
 import com.blogapplication.payloads.PostDTO;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface PostService {
 
     PostDTO getPostById(int postId);
 
-    List<PostDTO> getAllPost(int pageNumber,int pageSize);
+    PaginitationResponse getAllPost(int pageNumber, int pageSize);
 
     void deletePost(int postId);
 

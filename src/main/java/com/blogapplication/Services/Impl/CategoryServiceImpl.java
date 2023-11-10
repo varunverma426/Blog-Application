@@ -5,8 +5,12 @@ import com.blogapplication.Exceptions.ResourceNotFound;
 import com.blogapplication.Repositories.CategoryDAO;
 import com.blogapplication.Services.Service.CategoryServices;
 import com.blogapplication.payloads.CategoryDTO;
+import com.blogapplication.payloads.PaginitationResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,10 +48,26 @@ public class CategoryServiceImpl implements CategoryServices {
     }
 
     @Override
-    public List<CategoryDTO> getAllCategory() {
+    public PaginitationResponse getAllCategory(int pageNumber,int pageSize) {
         List<CategoryEntity> categoryentity=this.categoryDAO.findAll();
         List<CategoryDTO> categoryDTO=categoryentity.stream().map(data -> modelMapper.map(data,CategoryDTO.class)).collect(Collectors.toList());
-        return categoryDTO;
+
+        //introducing Pageinitiation concept
+
+        //creating pagable object
+        Pageable page= PageRequest.of(pageNumber,pageSize);
+        Page<CategoryEntity> pageCategory=this.categoryDAO.findAll(page);
+        List<CategoryEntity> categoryEntities= pageCategory.getContent();
+        List<CategoryDTO> categoryDTOS=categoryEntities.stream().map(p->this.modelMapper.map(p,CategoryDTO.class)).collect(Collectors.toList());
+
+        PaginitationResponse PaginitationResponse=new PaginitationResponse();
+        PaginitationResponse.setContentCategory(categoryDTOS);
+        PaginitationResponse.setPageNumber(pageCategory.getNumber());
+        PaginitationResponse.setPageSize(pageCategory.getSize());
+        PaginitationResponse.setTotalElement(pageCategory.getTotalElements());
+        PaginitationResponse.setTotalPages(pageCategory.getTotalPages());
+        PaginitationResponse.setLastPage(pageCategory.isLast());
+        return PaginitationResponse;
     }
 
     @Override

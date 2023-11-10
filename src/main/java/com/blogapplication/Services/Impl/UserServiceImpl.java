@@ -4,9 +4,13 @@ import com.blogapplication.Entities.UserEntity;
 import com.blogapplication.Exceptions.ResourceNotFound;
 import com.blogapplication.Repositories.UserDAO;
 import com.blogapplication.Services.Service.UserService;
+import com.blogapplication.payloads.PaginitationResponse;
 import com.blogapplication.payloads.UserDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,10 +49,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> getAllUser() {
-       List<UserEntity> userEntity= this.userDAO.findAll();
-      List<UserDTO>userDTOList=userEntity.stream().map(user->this.EntitytoDTO(user)).collect(Collectors.toList());
-      return userDTOList;
+    public PaginitationResponse getAllUser(int pageNumber,int pageSize) {
+
+        Pageable page= PageRequest.of(pageNumber,pageSize);
+        Page<UserEntity> usersPage=this.userDAO.findAll(page);
+        List<UserEntity> userEntities= usersPage.getContent();
+        List<UserDTO> userDTOS=userEntities.stream().map(p->this.modelMapper.map(p,UserDTO.class)).collect(Collectors.toList());
+
+        PaginitationResponse paginitationResponse=new PaginitationResponse();
+        paginitationResponse.setContentUser(userDTOS);
+        paginitationResponse.setPageNumber(usersPage.getNumber());
+        paginitationResponse.setPageSize(usersPage.getSize());
+        paginitationResponse.setTotalElement(usersPage.getTotalElements());
+        paginitationResponse.setTotalPages(usersPage.getTotalPages());
+        paginitationResponse.setLastPage(usersPage.isLast());
+       return paginitationResponse;
     }
 
     @Override

@@ -1,8 +1,7 @@
 package com.blogapplication.Services.Service;
 
 import com.blogapplication.payloads.CategoryDTO;
-
-import java.util.List;
+import com.blogapplication.payloads.PaginitationResponse;
 
 public interface CategoryServices {
 
@@ -13,7 +12,7 @@ public interface CategoryServices {
     //delete
     void deleteCategory(Integer categoryId);
     //getAll
-    List<CategoryDTO> getAllCategory();
+    PaginitationResponse getAllCategory(int pageNumber, int pageSize);
     //getById
     CategoryDTO getCategoryById(Integer categoryId);
 }

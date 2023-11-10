@@ -2,6 +2,7 @@ package com.blogapplication.Controllers;
 
 import com.blogapplication.Services.Service.PostService;
 import com.blogapplication.Utils.ApiResponse;
+import com.blogapplication.payloads.PaginitationResponse;
 import com.blogapplication.payloads.PostDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,10 +37,10 @@ public class PostController {
     }
 
     @GetMapping("/getAllPost")
-    public ResponseEntity<List<PostDTO>> getAllPost(@RequestParam(value = "pageNumber", defaultValue = "10", required = false) int pageNumber,
-                                                    @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
-        List<PostDTO> getAllPost = this.postService.getAllPost(pageNumber,pageSize);
-        return new ResponseEntity<List<PostDTO>>(getAllPost, HttpStatus.OK);
+    public ResponseEntity<PaginitationResponse> getAllPost(@RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
+                                                    @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize) {
+        PaginitationResponse getAllPost = this.postService.getAllPost(pageNumber,pageSize);
+        return new ResponseEntity<PaginitationResponse>(getAllPost, HttpStatus.OK);
     }
 
     @GetMapping("/getPostById/{postId}")

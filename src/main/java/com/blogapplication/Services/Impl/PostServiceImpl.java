@@ -8,6 +8,7 @@ import com.blogapplication.Repositories.CategoryDAO;
 import com.blogapplication.Repositories.PostDao;
 import com.blogapplication.Repositories.UserDAO;
 import com.blogapplication.Services.Service.PostService;
+import com.blogapplication.payloads.PaginitationResponse;
 import com.blogapplication.payloads.PostDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,13 +73,25 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDTO> getAllPost(int pageNumber,int pageSize) {
+    public PaginitationResponse getAllPost(int pageNumber, int pageSize) {
 
         //introducing Pageinitiation concept
+
+        //creating pagable object
        Pageable page= PageRequest.of(pageNumber,pageSize);
         Page<PostEntity> pagePost=this.postDao.findAll(page);
         List<PostEntity> postEntity= pagePost.getContent();
-       return postEntity.stream().map(p->this.modelMapper.map(p,PostDTO.class)).collect(Collectors.toList());
+        List<PostDTO> postDTOS=postEntity.stream().map(p->this.modelMapper.map(p,PostDTO.class)).collect(Collectors.toList());
+
+        PaginitationResponse PaginitationResponse=new PaginitationResponse();
+        PaginitationResponse.setContentPost(postDTOS);
+        PaginitationResponse.setPageNumber(pagePost.getNumber());
+        PaginitationResponse.setPageSize(pagePost.getSize());
+        PaginitationResponse.setTotalElement(pagePost.getTotalElements());
+        PaginitationResponse.setTotalPages(pagePost.getTotalPages());
+        PaginitationResponse.setLastPage(pagePost.isLast());
+
+        return PaginitationResponse;
     }
 
     @Override

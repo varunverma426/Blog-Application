@@ -1,14 +1,13 @@
 package com.blogapplication.Services.Service;
 
+import com.blogapplication.payloads.PaginitationResponse;
 import com.blogapplication.payloads.UserDTO;
-
-import java.util.List;
 
 public interface UserService {
 
     UserDTO createUser(UserDTO userDTO);
     UserDTO updateUser(UserDTO userDTO, int user_id);
     UserDTO getUserById(int user_id);
-    List<UserDTO> getAllUser();
+    PaginitationResponse getAllUser(int pageNumber, int pageSize);
     void deleteUser(int user_id);
 }
