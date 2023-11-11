@@ -2,6 +2,7 @@ package com.blogapplication.Controllers;
 
 import com.blogapplication.Services.Service.UserService;
 import com.blogapplication.Utils.ApiResponse;
+import com.blogapplication.config.AppConstant;
 import com.blogapplication.payloads.PaginitationResponse;
 import com.blogapplication.payloads.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +37,11 @@ public class UserController {
     }
 
     @GetMapping("/getAllUser")
-    public ResponseEntity<PaginitationResponse> getUser(@RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
-                                                        @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize) {
-        return (ResponseEntity.ok(this.userService.getAllUser(pageNumber,pageSize)));
+    public ResponseEntity<PaginitationResponse> getUser(@RequestParam(value = "pageNumber", defaultValue = AppConstant.PAGE_NUMBER, required = false) int pageNumber,
+                                                        @RequestParam(value = "pageSize", defaultValue = AppConstant.PAGE_SIZE, required = false) int pageSize,
+                                                        @RequestParam(value = "sortBy", defaultValue = "user_name", required = false) String sortBy,
+                                                        @RequestParam(value = "sortDir", defaultValue = AppConstant.PAGE_DIR, required = false) String sortDir) {
+        return (ResponseEntity.ok(this.userService.getAllUser(pageNumber,pageSize,sortBy,sortDir)));
     }
 
     @GetMapping("/getUserById/{userId}")

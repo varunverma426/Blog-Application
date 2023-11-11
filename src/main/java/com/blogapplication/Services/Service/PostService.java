@@ -15,7 +15,7 @@ public interface PostService {
 
     PostDTO getPostById(int postId);
 
-    PaginitationResponse getAllPost(int pageNumber, int pageSize);
+    PaginitationResponse getAllPost(int pageNumber, int pageSize,String sortBy,String sortDir);
 
     void deletePost(int postId);
 
@@ -25,5 +25,5 @@ public interface PostService {
     List<PostDTO> getPostByUser(int userId);
 
     //search Post by keyword
-    List<PostDTO> searchPost(String keyword);
+    //List<PostDTO> searchPost(String keyword);
 }

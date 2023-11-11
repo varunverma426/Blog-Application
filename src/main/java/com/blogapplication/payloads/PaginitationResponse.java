@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 public class PaginitationResponse {
 
-    /*This clas will be used to modify the getAll Api response for pagination
+    /*This class will be used to modify the getAll Api response for pagination and to add pagesize,totalElement etc fields
     * Adding fileds like totalElement pagesize pageNumber etc*/
 
     //Adding JSON include so that field is not included in the response if null

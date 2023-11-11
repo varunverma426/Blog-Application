@@ -2,6 +2,7 @@ package com.blogapplication.Controllers;
 
 import com.blogapplication.Services.Service.PostService;
 import com.blogapplication.Utils.ApiResponse;
+import com.blogapplication.config.AppConstant;
 import com.blogapplication.payloads.PaginitationResponse;
 import com.blogapplication.payloads.PostDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +38,11 @@ public class PostController {
     }
 
     @GetMapping("/getAllPost")
-    public ResponseEntity<PaginitationResponse> getAllPost(@RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
-                                                    @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize) {
-        PaginitationResponse getAllPost = this.postService.getAllPost(pageNumber,pageSize);
+    public ResponseEntity<PaginitationResponse> getAllPost(@RequestParam(value = "pageNumber", defaultValue = AppConstant.PAGE_NUMBER, required = false) int pageNumber,
+                                                           @RequestParam(value = "pageSize", defaultValue = AppConstant.PAGE_SIZE, required = false) int pageSize,
+                                                           @RequestParam(value = "sortBy", defaultValue = "title", required = false) String sortBy,
+                                                           @RequestParam(value = "sortDir", defaultValue = AppConstant.PAGE_DIR, required = false) String sortDir) {
+        PaginitationResponse getAllPost = this.postService.getAllPost(pageNumber, pageSize,sortBy,sortDir);
         return new ResponseEntity<PaginitationResponse>(getAllPost, HttpStatus.OK);
     }
 
@@ -60,4 +63,10 @@ public class PostController {
         PostDTO updatedPost = this.postService.updatePost(postDTO, postId);
         return new ResponseEntity<PostDTO>(updatedPost, HttpStatus.OK);
     }
+
+//    @GetMapping("/search/{keyword}")
+//    public ResponseEntity<List<PostDTO>> searchPost(@PathVariable String keyword){
+//        List<PostDTO> postDTOList=this.postService.searchPost(keyword);
+//        return new ResponseEntity<List<PostDTO>>(postDTOList,HttpStatus.OK);
+//    }
 }

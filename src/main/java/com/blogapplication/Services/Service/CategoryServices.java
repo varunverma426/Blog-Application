@@ -12,7 +12,7 @@ public interface CategoryServices {
     //delete
     void deleteCategory(Integer categoryId);
     //getAll
-    PaginitationResponse getAllCategory(int pageNumber, int pageSize);
+    PaginitationResponse getAllCategory(int pageNumber, int pageSize,String sortBy,String sortDir);
     //getById
     CategoryDTO getCategoryById(Integer categoryId);
 }

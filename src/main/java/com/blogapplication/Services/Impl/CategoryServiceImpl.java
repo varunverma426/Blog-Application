@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,14 +49,14 @@ public class CategoryServiceImpl implements CategoryServices {
     }
 
     @Override
-    public PaginitationResponse getAllCategory(int pageNumber,int pageSize) {
-        List<CategoryEntity> categoryentity=this.categoryDAO.findAll();
-        List<CategoryDTO> categoryDTO=categoryentity.stream().map(data -> modelMapper.map(data,CategoryDTO.class)).collect(Collectors.toList());
+    public PaginitationResponse getAllCategory(int pageNumber,int pageSize,String sortBy,String sortDir) {
 
         //introducing Pageinitiation concept
 
+        //Create Sorting object and doing sorting according to sort direction
+        Sort sorting = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         //creating pagable object
-        Pageable page= PageRequest.of(pageNumber,pageSize);
+        Pageable page= PageRequest.of(pageNumber,pageSize,sorting);
         Page<CategoryEntity> pageCategory=this.categoryDAO.findAll(page);
         List<CategoryEntity> categoryEntities= pageCategory.getContent();
         List<CategoryDTO> categoryDTOS=categoryEntities.stream().map(p->this.modelMapper.map(p,CategoryDTO.class)).collect(Collectors.toList());

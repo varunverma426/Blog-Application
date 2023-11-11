@@ -2,6 +2,7 @@ package com.blogapplication.Controllers;
 
 import com.blogapplication.Services.Service.CategoryServices;
 import com.blogapplication.Utils.ApiResponse;
+import com.blogapplication.config.AppConstant;
 import com.blogapplication.payloads.CategoryDTO;
 import com.blogapplication.payloads.PaginitationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +42,11 @@ public class CategoryController {
 
     //getAll
     @GetMapping("/getAllCategory")
-    public ResponseEntity<PaginitationResponse> getAllCategory(@RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
-                                                            @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize) {
-        return new ResponseEntity<PaginitationResponse>(this.categoryServices.getAllCategory(pageNumber,pageSize), HttpStatus.OK);
+    public ResponseEntity<PaginitationResponse> getAllCategory(@RequestParam(value = "pageNumber", defaultValue = AppConstant.PAGE_NUMBER, required = false) int pageNumber,
+                                                               @RequestParam(value = "pageSize", defaultValue = AppConstant.PAGE_SIZE, required = false) int pageSize,
+                                                               @RequestParam(value = "sortBy", defaultValue = "categoryTitle", required = false) String sortBy,
+                                                               @RequestParam(value = "sortDir", defaultValue = AppConstant.PAGE_DIR, required = false) String sortDir) {
+        return new ResponseEntity<PaginitationResponse>(this.categoryServices.getAllCategory(pageNumber, pageSize,sortBy,sortDir), HttpStatus.OK);
     }
 
     //getById
