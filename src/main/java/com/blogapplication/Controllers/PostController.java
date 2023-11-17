@@ -1,15 +1,23 @@
 package com.blogapplication.Controllers;
 
+import com.blogapplication.Services.Service.FileService;
 import com.blogapplication.Services.Service.PostService;
 import com.blogapplication.Utils.ApiResponse;
 import com.blogapplication.config.AppConstant;
 import com.blogapplication.payloads.PaginitationResponse;
 import com.blogapplication.payloads.PostDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @RestController
@@ -18,6 +26,12 @@ public class PostController {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private FileService fileService;
+
+    @Value("${project.image}")
+    private String path;
 
     @PostMapping("/user/{userId}/category/{categoryId}")
     public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postInput, @PathVariable int userId, @PathVariable int categoryId) {
@@ -69,4 +83,27 @@ public class PostController {
 //        List<PostDTO> postDTOList=this.postService.searchPost(keyword);
 //        return new ResponseEntity<List<PostDTO>>(postDTOList,HttpStatus.OK);
 //    }
+
+    //Uploading Image for the particular post
+    @PostMapping("/image/upload/{postId}")
+    public ResponseEntity<PostDTO> uploadImage(@RequestParam MultipartFile image, @PathVariable int postId) throws IOException {
+
+        //retrieve the post in which image needs to be uploaded
+        PostDTO postDTO=this.postService.getPostById(postId);
+
+        //upload image
+        String fileName=this.fileService.uploadImage(path,image);
+
+        //After uploading image update the image name in the db
+        postDTO.setImageName(fileName);
+        return new ResponseEntity<PostDTO>(this.postService.updatePost(postDTO,postId),HttpStatus.OK);
+    }
+
+    //Serving or downloading Image
+    @GetMapping(value= "/image/download/{imageName}",produces = MediaType.IMAGE_JPEG_VALUE)
+    public void downloadImage(@PathVariable String imageName, HttpServletResponse response) throws IOException {
+        InputStream resource=this.fileService.getResource(path,imageName);
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        StreamUtils.copy(resource,response.getOutputStream());
+    }
 }
