@@ -8,6 +8,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -37,4 +39,7 @@ public class PostEntity {
     private CategoryEntity category;
     @ManyToOne
     private UserEntity user;
+
+    @OneToMany(mappedBy="post",cascade = CascadeType.ALL)
+    Set<CommentEntity> commentEntity=new HashSet<>();
 }

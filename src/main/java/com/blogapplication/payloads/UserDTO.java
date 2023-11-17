@@ -1,5 +1,6 @@
 package com.blogapplication.payloads;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +9,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
@@ -31,4 +34,7 @@ public class UserDTO{
         @NotEmpty
         @NotNull
         private String about;
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        private Set<CommentDTO> comment=new HashSet<>();
 }

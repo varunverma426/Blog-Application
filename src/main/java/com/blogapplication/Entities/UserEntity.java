@@ -31,4 +31,7 @@ public class UserEntity {
     //one to many relationship as one user can have many posts
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<PostEntity> posts = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<CommentEntity> commentEntities=new HashSet<>();
 }
