@@ -84,7 +84,9 @@ public class PostController {
 //        return new ResponseEntity<List<PostDTO>>(postDTOList,HttpStatus.OK);
 //    }
 
+
     //Uploading Image for the particular post
+    //Dont forget to add imagepath and upload/download related prop in application.properties file
     @PostMapping("/image/upload/{postId}")
     public ResponseEntity<PostDTO> uploadImage(@RequestParam MultipartFile image, @PathVariable int postId) throws IOException {
 
